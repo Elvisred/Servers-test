@@ -1,0 +1,15 @@
+attrs==21.4.0
+importlib-metadata==4.4
+pluggy>=1.0.0
+py>=1.11.0
+pytest>=6.2.5
+allure-pytest>=2.9.45
+pytest-testconfig>=0.1.0
+pytest-order>=1.0.1
+selenium>=4.3.0
+Pillow>=8.4.0
+requests>=2.27.1
+pytest-timeout>=2.1.0
+opencv-python>=4.6.0
+numpy~=1.23.1
+matplotlib~=3.5.2
