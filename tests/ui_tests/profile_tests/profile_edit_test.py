@@ -35,7 +35,7 @@ class TestProfile(BaseTest):
         loginpage.open(BaseTest.baseurl + "?login")  # Переходим на страницу логина
         loginpage.login_user()
         # Act
-        profilepage.edit_account(is_save=False)  # Редактируем аккаунт данными по умолчанию
+        profilepage.edit_account(is_save=False)  # Редактируем аккаунт, но нажимаем на cancel
         # Assert
         with allure.step("Проверяем отсутствие сообщения о проверке смены личных данных"):
             assert profilepage.is_not_element_present(*ProfilePageLocators.DATA_REQUEST_FIELD)
