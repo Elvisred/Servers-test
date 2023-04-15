@@ -50,19 +50,19 @@ class CloudServersPage(BasePage):
         self.wait_and_click(*DashboardPageLocators.CLOUD_CREATE_BUTTON)
         self.wait_and_click(*DashboardPageLocators.CREATE_SERVER_BUTTON)
 
-    @allure.step("Выбор страны")
-    def select_country(self, country):
-        self.wait_and_click(By.XPATH, f"//span[contains(@class, 'li6amjs') and text()='{country}']")
+    @allure.step("Выбор страны сервера")
+    def select_server_country(self, country):
+        self.wait_and_click(By.XPATH, f"//span[contains(@class, 'li6amjs') and text()='{country.value}']")
 
     @allure.step("Выбор платформы")
     def select_platform(self, platform):
-        self.scroll_to_element(By.XPATH, f"//h4[text()='{platform}']/ancestor::label")
-        self.wait_and_click(By.XPATH, f"//h4[text()='{platform}']/ancestor::label")
+        self.scroll_to_element(By.XPATH, f"//h4[text()='{platform.value}']/ancestor::label")
+        self.wait_and_click(By.XPATH, f"//h4[text()='{platform.value}']/ancestor::label")
 
     @allure.step("Выбор конфигурации")
     def select_configuration(self, configuration):
-        self.scroll_to_element(By.XPATH, f"//h4[text()='{configuration}']/ancestor::label//input[@type='radio']")
-        self.wait_and_click(By.XPATH, f"//h4[text()='{configuration}']/ancestor::label//input[@type='radio']")
+        self.scroll_to_element(By.XPATH, f"//h4[text()='{configuration.value}']/ancestor::label//input[@type='radio']")
+        self.wait_and_click(By.XPATH, f"//h4[text()='{configuration.value}']/ancestor::label//input[@type='radio']")
 
     @allure.step("Генерация SSH ключа")
     def generate_ssh_key(self):
@@ -103,7 +103,7 @@ class CloudServersPage(BasePage):
             is_save=True
     ):
         self.enter_cloud_server_create()
-        self.select_country(country)
+        self.select_server_country(country)
         self.select_platform(platform)
         self.select_configuration(configuration)
         self.generate_ssh_key()

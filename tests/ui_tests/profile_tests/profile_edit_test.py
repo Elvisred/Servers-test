@@ -13,7 +13,7 @@ class TestProfile(BaseTest):
     @allure.title("Успешное редактирование аккаунта")
     def test_correct_edit_account(self, browser):
         """Тест отрабатывает корректно, но, как известно, после редактирования профиль нельзя
-        редактировать на время проверки изменений и дальнейшие тесты невозможны. Добавлен для примера"""
+        редактировать на время проверки изменений и дальнейшие тесты невозможны. Добавлен для примера."""
         # Arrange
         loginpage = LoginPage(browser, BaseTest.baseurl)  # Инициализируем loginpage
         profilepage = ProfilePage(browser, BaseTest.baseurl)  # Инициализируем profilepage
@@ -28,8 +28,8 @@ class TestProfile(BaseTest):
     @allure.story("Account edit cancel")
     @allure.title("Отмена редактирования аккаунта")
     def test_cancel_edit_account(self, browser):
-        """ Этот тест можно было легко совместить с предыдущим за счет параметризации,
-        но я предпочитаю не смешивать ни с чем основной позитивный тест """
+        """Этот тест можно было легко совместить с предыдущим за счет параметризации,
+        но я предпочитаю не смешивать ни с чем основной позитивный тест."""
         # Arrange
         loginpage = LoginPage(browser, BaseTest.baseurl)  # Инициализируем loginpage
         profilepage = ProfilePage(browser, BaseTest.baseurl)  # Инициализируем profilepage
@@ -58,7 +58,7 @@ class TestProfile(BaseTest):
         # Act
         profilepage.edit_account(**empty_fields)
         # Assert
-        with allure.step("Проверяем наличие алертов о незаполненных обязательных полях"):
+        with allure.step("Проверяем наличие аллертов о незаполненных обязательных полях"):
             assert profilepage.is_element_present(*ProfilePageLocators.EMPTY_FIELD_ALERT)
         with allure.step("Проверяем отсутствие сообщения о проверке смены личных данных"):
             assert profilepage.is_not_element_present(*ProfilePageLocators.DATA_REQUEST_FIELD)

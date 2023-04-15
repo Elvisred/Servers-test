@@ -71,7 +71,7 @@ class ProfilePage(BasePage):
         self.wait_and_click(*DashboardPageLocators.PROFILE_BUTTON)
         self.wait_and_click(*DashboardPageLocators.PROFILE_EDIT_BUTTON)
 
-    @allure.step("Выбор типа бизнеса")
+    @allure.step("Выбор типа аккаунта business или personal")
     def select_business_type(self, business_type):
         if business_type == self.BusinessType.PERSONAL:
             self.wait_and_click(*ProfilePageLocators.PERSONAL_CHECKBOX)
@@ -85,7 +85,7 @@ class ProfilePage(BasePage):
         elif currency == self.Currency.EUR:
             self.wait_and_click(*ProfilePageLocators.CURRENCY_EURO_CHECKBOX)
 
-    @allure.step("Установка настроек маркетинговой рассылки")
+    @allure.step("Установка маркетинговой рассылки")
     def set_marketing_email(self, marketing_email):
         if marketing_email is True:
             self.wait_and_click(*ProfilePageLocators.MARKETING_EMAIL_CHECKBOX)
@@ -131,6 +131,7 @@ class ProfilePage(BasePage):
             marketing_email=True,
             is_save=True
     ):
+        self.enter_edit_account()
         self.select_business_type(business_type)
         self.select_currency(currency)
         self.set_marketing_email(marketing_email)
