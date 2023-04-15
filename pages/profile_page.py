@@ -56,10 +56,11 @@ class ProfilePage(BasePage):
     def __init__(self, *args, **kwargs):
         super(ProfilePage, self).__init__(*args, **kwargs)
 
-    """Сюда также можно вбить остальные валюты и расширить метод по выбору валюты"""
     class Currency(Enum):
         USD = "USD"
         EUR = "EUR"
+        SGD = "SGD"
+        HKD = "HKD"
 
     class BusinessType(Enum):
         PERSONAL = "personal"
@@ -71,19 +72,16 @@ class ProfilePage(BasePage):
         self.wait_and_click(*DashboardPageLocators.PROFILE_BUTTON)
         self.wait_and_click(*DashboardPageLocators.PROFILE_EDIT_BUTTON)
 
-    @allure.step("Выбор типа аккаунта business или personal")
+    @allure.step("Выбор типа аккаунта business или personal с {business_type}")
     def select_business_type(self, business_type):
         if business_type == self.BusinessType.PERSONAL:
             self.wait_and_click(*ProfilePageLocators.PERSONAL_CHECKBOX)
         elif business_type == self.BusinessType.BUSINESS:
             self.wait_and_click(*ProfilePageLocators.BUSINESS_CHECKBOX)
 
-    @allure.step("Выбор валюты")
+    @allure.step("Выбор валюты с {currency}")
     def select_currency(self, currency):
-        if currency == self.Currency.USD:
-            self.wait_and_click(*ProfilePageLocators.CURRENCY_DOLLAR_CHECKBOX)
-        elif currency == self.Currency.EUR:
-            self.wait_and_click(*ProfilePageLocators.CURRENCY_EURO_CHECKBOX)
+        self.wait_and_click(By.XPATH, f"//input[@name='currency' and @value='{currency.value}']")
 
     @allure.step("Установка маркетинговой рассылки")
     def set_marketing_email(self, marketing_email):
@@ -126,7 +124,7 @@ class ProfilePage(BasePage):
             region="Cyprus",
             postal_code=random_number(4),
             street="Ermou 31",
-            currency=Currency.USD,
+            currency=Currency.EUR,
             business_type=BusinessType.PERSONAL,
             marketing_email=True,
             is_save=True
