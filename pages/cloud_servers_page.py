@@ -3,6 +3,7 @@ import allure
 from selenium.webdriver.common.by import By
 from pages.base_page import BasePage
 from pages.dashboard_page import DashboardPageLocators
+from enum import Enum
 
 
 class CloudServersPageLocators(object):
@@ -29,34 +30,47 @@ class CloudServersPage(BasePage):
     def __init__(self, *args, **kwargs):
         super(CloudServersPage, self).__init__(*args, **kwargs)
 
+    """Также можно вбить остальные страны и платформы/конфигурации"""
+    class Country(Enum):
+        DALLAS = "Dallas"
+        LUXEMBOURG = "Luxembourg"
+        SINGAPORE = "Singapore"
+
+    class Platform(Enum):
+        CENTOS_7_64 = "CentOS 7 (64 bit)"
+        DEBIAN_11_64 = "Debian 11 (64 bit)"
+
+    class Configuration(Enum):
+        SSD_30 = "SSD.30"
+        SSD_50 = "SSD.50"
+
     @allure.step("Вход на страницу создания облачного сервера")
     def enter_cloud_server_create(self):
         self.wait_and_click(*DashboardPageLocators.CLOUD_SERVERS_BUTTON)
         self.wait_and_click(*DashboardPageLocators.CLOUD_CREATE_BUTTON)
         self.wait_and_click(*DashboardPageLocators.CREATE_SERVER_BUTTON)
 
-    @allure.step("Создание сервера")
-    def create_server(
-            self,
-            country="Dallas",
-            platform="Ubuntu 20.04-server (64 bit)",
-            configuration="SSD.30",
-            backup_enabled=True,
-            backup_copies=None,
-            server_name="test server",
-            is_save=True
-    ):
-        self.enter_cloud_server_create()
-
+    @allure.step("Выбор страны")
+    def select_country(self, country):
         self.wait_and_click(By.XPATH, f"//span[contains(@class, 'li6amjs') and text()='{country}']")
+
+    @allure.step("Выбор платформы")
+    def select_platform(self, platform):
         self.scroll_to_element(By.XPATH, f"//h4[text()='{platform}']/ancestor::label")
         self.wait_and_click(By.XPATH, f"//h4[text()='{platform}']/ancestor::label")
+
+    @allure.step("Выбор конфигурации")
+    def select_configuration(self, configuration):
         self.scroll_to_element(By.XPATH, f"//h4[text()='{configuration}']/ancestor::label//input[@type='radio']")
         self.wait_and_click(By.XPATH, f"//h4[text()='{configuration}']/ancestor::label//input[@type='radio']")
 
+    @allure.step("Генерация SSH ключа")
+    def generate_ssh_key(self):
         self.scroll_to_element(*CloudServersPageLocators.GENERATE_SSH_BUTTON)
         self.wait_and_click(*CloudServersPageLocators.GENERATE_SSH_BUTTON)
 
+    @allure.step("Настройка автоматических резервных копий")
+    def setup_backups(self, backup_enabled, backup_copies=None):
         if backup_enabled:
             self.scroll_to_element(*CloudServersPageLocators.BACKUP_ENABLE_CHECKBOX)
             self.wait_and_click(*CloudServersPageLocators.BACKUP_ENABLE_CHECKBOX)
@@ -65,10 +79,34 @@ class CloudServersPage(BasePage):
         else:
             self.wait_and_click(*CloudServersPageLocators.BACKUP_DISABLE_CHECKBOX)
 
+    @allure.step("Установка имени сервера")
+    def set_server_name(self, server_name):
         self.scroll_to_element(*CloudServersPageLocators.SERVER_NAME_INPUT)
         self.clear_and_set_value(*CloudServersPageLocators.SERVER_NAME_INPUT, server_name)
 
+    @allure.step("Сохранение или отмена создания сервера")
+    def save_or_cancel(self, is_save=True):
         if is_save:
             self.wait_and_click(*CloudServersPageLocators.CREATE_SERVER_BUTTON)
         else:
             self.wait_and_click(*CloudServersPageLocators.CANCEL_BUTTON)
+
+    @allure.step("Создание сервера")
+    def create_server(
+            self,
+            country=Country.DALLAS,
+            platform=Platform.DEBIAN_11_64,
+            configuration=Configuration.SSD_30,
+            backup_enabled=True,
+            backup_copies=None,
+            server_name="test server",
+            is_save=True
+    ):
+        self.enter_cloud_server_create()
+        self.select_country(country)
+        self.select_platform(platform)
+        self.select_configuration(configuration)
+        self.generate_ssh_key()
+        self.setup_backups(backup_enabled, backup_copies)
+        self.set_server_name(server_name)
+        self.save_or_cancel(is_save)

@@ -74,7 +74,6 @@ class SeleniumWrapper:
 
     @allure.step("Открываем страницу {url}")
     def open(self, url):
-        """method to open the page"""
         self.browser.get(url)
 
     @allure.step("Очищаем значение и вводим {value} в текущем поле {what}")

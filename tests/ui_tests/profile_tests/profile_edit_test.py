@@ -8,11 +8,12 @@ from tests.base_test import BaseTest
 
 @allure.epic("Profile tests")
 class TestProfile(BaseTest):
-    @pytest.mark.skip  # Тест отрабатывает корректно, но, как известно, после редактирования профиль нельзя
-    # редактировать на время проверки изменений и дальнейшие тесты невозможны. Добавлен для примера
+    @pytest.mark.skip
     @allure.story("Account edit")
     @allure.title("Успешное редактирование аккаунта")
     def test_correct_edit_account(self, browser):
+        """Тест отрабатывает корректно, но, как известно, после редактирования профиль нельзя
+        редактировать на время проверки изменений и дальнейшие тесты невозможны. Добавлен для примера"""
         # Arrange
         loginpage = LoginPage(browser, BaseTest.baseurl)  # Инициализируем loginpage
         profilepage = ProfilePage(browser, BaseTest.baseurl)  # Инициализируем profilepage
@@ -27,8 +28,8 @@ class TestProfile(BaseTest):
     @allure.story("Account edit cancel")
     @allure.title("Отмена редактирования аккаунта")
     def test_cancel_edit_account(self, browser):
-        # Этот тест можно было легко совместить с предыдущим за счет параметризации,
-        # но я предпочитаю не смешивать ни с чем основной позитивный тест
+        """ Этот тест можно было легко совместить с предыдущим за счет параметризации,
+        но я предпочитаю не смешивать ни с чем основной позитивный тест """
         # Arrange
         loginpage = LoginPage(browser, BaseTest.baseurl)  # Инициализируем loginpage
         profilepage = ProfilePage(browser, BaseTest.baseurl)  # Инициализируем profilepage

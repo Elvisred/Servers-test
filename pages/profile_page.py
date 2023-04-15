@@ -1,5 +1,6 @@
 import allure
 
+from enum import Enum
 from selenium.webdriver.common.by import By
 from pages.base_page import BasePage
 from pages.dashboard_page import DashboardPageLocators
@@ -55,11 +56,63 @@ class ProfilePage(BasePage):
     def __init__(self, *args, **kwargs):
         super(ProfilePage, self).__init__(*args, **kwargs)
 
+    """Сюда также можно вбить остальные валюты и расширить метод по выбору валюты"""
+    class Currency(Enum):
+        USD = "USD"
+        EUR = "EUR"
+
+    class BusinessType(Enum):
+        PERSONAL = "personal"
+        BUSINESS = "business"
+
     @allure.step("Вход на страницу редактирования профиля")
     def enter_edit_account(self):
         self.wait_and_click(*DashboardPageLocators.PROFILE_AND_LOGOUT_BUTTON)
         self.wait_and_click(*DashboardPageLocators.PROFILE_BUTTON)
         self.wait_and_click(*DashboardPageLocators.PROFILE_EDIT_BUTTON)
+
+    @allure.step("Выбор типа бизнеса")
+    def select_business_type(self, business_type):
+        if business_type == self.BusinessType.PERSONAL:
+            self.wait_and_click(*ProfilePageLocators.PERSONAL_CHECKBOX)
+        elif business_type == self.BusinessType.BUSINESS:
+            self.wait_and_click(*ProfilePageLocators.BUSINESS_CHECKBOX)
+
+    @allure.step("Выбор валюты")
+    def select_currency(self, currency):
+        if currency == self.Currency.USD:
+            self.wait_and_click(*ProfilePageLocators.CURRENCY_DOLLAR_CHECKBOX)
+        elif currency == self.Currency.EUR:
+            self.wait_and_click(*ProfilePageLocators.CURRENCY_EURO_CHECKBOX)
+
+    @allure.step("Установка настроек маркетинговой рассылки")
+    def set_marketing_email(self, marketing_email):
+        if marketing_email is True:
+            self.wait_and_click(*ProfilePageLocators.MARKETING_EMAIL_CHECKBOX)
+
+    @allure.step("Заполнение данных пользователя")
+    def fill_user_data(self, first_name, last_name, phone_number, email):
+        self.scroll_to_element(*ProfilePageLocators.FIRST_NAME_INPUT)
+        self.clear_and_set_value(*ProfilePageLocators.FIRST_NAME_INPUT, first_name)
+        self.clear_and_set_value(*ProfilePageLocators.LAST_NAME_INPUT, last_name)
+        self.clear_and_set_value(*ProfilePageLocators.PHONE_NUMBER_INPUT, phone_number)
+        self.clear_and_set_value(*ProfilePageLocators.EMAIL_INPUT, email)
+
+    @allure.step("Заполнение адресных данных")
+    def fill_address_data(self, country, city, region, postal_code, street):
+        self.wait_and_click(*ProfilePageLocators.COUNTRY_SELECTOR)
+        self.wait_and_click(By.XPATH, f"//div[contains(text(),{country})]")
+        self.clear_and_set_value(*ProfilePageLocators.CITY_SELECTOR, city)
+        self.clear_and_set_value(*ProfilePageLocators.REGION_INPUT, region)
+        self.clear_and_set_value(*ProfilePageLocators.POSTAL_CODE_INPUT, postal_code)
+        self.clear_and_set_value(*ProfilePageLocators.STREET_INPUT, street)
+
+    @allure.step("Сохранение или отмена редактирования аккаунта")
+    def save_or_cancel_edit(self, is_save=True):
+        if is_save is True:
+            self.wait_and_click(*ProfilePageLocators.SAVE_BUTTON)
+        else:
+            self.wait_and_click(*ProfilePageLocators.CANCEL_BUTTON)
 
     @allure.step("Редактирование аккаунта")
     def edit_account(
@@ -73,42 +126,14 @@ class ProfilePage(BasePage):
             region="Cyprus",
             postal_code=random_number(4),
             street="Ermou 31",
-            currency="USD",
-            business_type="personal",
+            currency=Currency.USD,
+            business_type=BusinessType.PERSONAL,
             marketing_email=True,
             is_save=True
     ):
-        self.enter_edit_account()
-
-        if business_type == "personal":
-            self.wait_and_click(*ProfilePageLocators.PERSONAL_CHECKBOX)
-        elif business_type == "business":
-            self.wait_and_click(*ProfilePageLocators.BUSINESS_CHECKBOX)
-
-        if currency == "USD":
-            self.wait_and_click(*ProfilePageLocators.CURRENCY_DOLLAR_CHECKBOX)
-        elif currency == "EUR":
-            self.wait_and_click(*ProfilePageLocators.CURRENCY_EURO_CHECKBOX)
-
-        if marketing_email is True:
-            self.wait_and_click(*ProfilePageLocators.MARKETING_EMAIL_CHECKBOX)
-
-        self.scroll_to_element(*ProfilePageLocators.FIRST_NAME_INPUT)
-        self.clear_and_set_value(*ProfilePageLocators.FIRST_NAME_INPUT, first_name)
-
-        self.clear_and_set_value(*ProfilePageLocators.LAST_NAME_INPUT, last_name)
-        self.clear_and_set_value(*ProfilePageLocators.PHONE_NUMBER_INPUT, phone_number)
-        self.clear_and_set_value(*ProfilePageLocators.EMAIL_INPUT, email)
-
-        self.wait_and_click(*ProfilePageLocators.COUNTRY_SELECTOR)
-        self.wait_and_click(By.XPATH, f"//div[contains(text(),{country})]")
-
-        self.clear_and_set_value(*ProfilePageLocators.CITY_SELECTOR, city)
-        self.clear_and_set_value(*ProfilePageLocators.REGION_INPUT, region)
-        self.clear_and_set_value(*ProfilePageLocators.POSTAL_CODE_INPUT, postal_code)
-        self.clear_and_set_value(*ProfilePageLocators.STREET_INPUT, street)
-
-        if is_save is True:
-            self.wait_and_click(*ProfilePageLocators.SAVE_BUTTON)
-        else:
-            self.wait_and_click(*ProfilePageLocators.CANCEL_BUTTON)
+        self.select_business_type(business_type)
+        self.select_currency(currency)
+        self.set_marketing_email(marketing_email)
+        self.fill_user_data(first_name, last_name, phone_number, email)
+        self.fill_address_data(country, city, region, postal_code, street)
+        self.save_or_cancel_edit(is_save)
