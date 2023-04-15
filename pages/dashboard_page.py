@@ -5,8 +5,8 @@ from selenium.webdriver.common.by import By
 
 
 class DashboardPageLocators(object):
-    # xpath элемента Dashboard
-    DASHBOARD_ELEMENT = (By.XPATH, "//span[text()='Dashboard']")
+    # xpath хедера страницы /dashboard
+    DASHBOARD_HEADER = (By.XPATH, "//nav[@class='nn4rjii']")
     # xpath кнопки открытия селектора профиля/логаута
     PROFILE_AND_LOGOUT_BUTTON = (By.XPATH, "//div[@class='c1asuurm']/button")
     # xpath логаута

@@ -18,8 +18,8 @@ class TestLogin(BaseTest):
         # Act
         loginpage.login_user()
         # Assert
-        with allure.step("Проверяем что появился элемент Dashbord на /dashboard"):
-            assert loginpage.is_element_present(*DashboardPageLocators.DASHBOARD_ELEMENT)
+        with allure.step("Проверяем что перешли на /dachboard проверяя хедер этой страницы"):
+            assert loginpage.is_element_present(*DashboardPageLocators.DASHBOARD_HEADER)
 
     @allure.story("Negative Login")
     @allure.title("Негативные тесты логина логина")
