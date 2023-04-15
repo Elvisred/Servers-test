@@ -1,6 +1,5 @@
 import os
 
-
 from utils.selenium_wrapper import SeleniumWrapper
 
 

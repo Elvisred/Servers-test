@@ -7,8 +7,6 @@ from tests.conftest import random_string, random_number
 
 
 class ProfilePageLocators(object):
-    # xpath кнопки Edit в профиле
-    PROFILE_EDIT_BUTTON = (By.XPATH, "//span[text()='Edit']")
     # xpath чекбокса personal
     PERSONAL_CHECKBOX = (By.XPATH, "//input[@name='business_type' and @value='0']")
     # xpath чекбокса business
@@ -57,6 +55,12 @@ class ProfilePage(BasePage):
     def __init__(self, *args, **kwargs):
         super(ProfilePage, self).__init__(*args, **kwargs)
 
+    @allure.step("Вход на страницу редактирования профиля")
+    def enter_edit_account(self):
+        self.wait_and_click(*DashboardPageLocators.PROFILE_AND_LOGOUT_BUTTON)
+        self.wait_and_click(*DashboardPageLocators.PROFILE_BUTTON)
+        self.wait_and_click(*DashboardPageLocators.PROFILE_EDIT_BUTTON)
+
     @allure.step("Редактирование аккаунта")
     def edit_account(
             self,
@@ -74,9 +78,7 @@ class ProfilePage(BasePage):
             marketing_email=True,
             is_save=True
     ):
-        self.wait_and_click(*DashboardPageLocators.PROFILE_AND_LOGOUT_BUTTON)
-        self.wait_and_click(*DashboardPageLocators.PROFILE_BUTTON)
-        self.wait_and_click(*ProfilePageLocators.PROFILE_EDIT_BUTTON)
+        self.enter_edit_account()
 
         if business_type == "personal":
             self.wait_and_click(*ProfilePageLocators.PERSONAL_CHECKBOX)

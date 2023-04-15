@@ -19,6 +19,8 @@ class DashboardPageLocators(object):
     CLOUD_CREATE_BUTTON = (By.XPATH, "//span[text()='Create & Manage']")
     # xpath кнопки create/manage в cloud servers
     CREATE_SERVER_BUTTON = (By.XPATH, "//span[text()='Create server']")
+    # xpath кнопки Edit в профиле
+    PROFILE_EDIT_BUTTON = (By.XPATH, "//span[text()='Edit']")
 
 
 class DashboardPage(BasePage):

@@ -29,6 +29,12 @@ class CloudServersPage(BasePage):
     def __init__(self, *args, **kwargs):
         super(CloudServersPage, self).__init__(*args, **kwargs)
 
+    @allure.step("Вход на страницу создания облачного сервера")
+    def enter_cloud_server_create(self):
+        self.wait_and_click(*DashboardPageLocators.CLOUD_SERVERS_BUTTON)
+        self.wait_and_click(*DashboardPageLocators.CLOUD_CREATE_BUTTON)
+        self.wait_and_click(*DashboardPageLocators.CREATE_SERVER_BUTTON)
+
     @allure.step("Создание сервера")
     def create_server(
             self,
@@ -40,9 +46,7 @@ class CloudServersPage(BasePage):
             server_name="test server",
             is_save=True
     ):
-        self.wait_and_click(*DashboardPageLocators.CLOUD_SERVERS_BUTTON)
-        self.wait_and_click(*DashboardPageLocators.CLOUD_CREATE_BUTTON)
-        self.wait_and_click(*DashboardPageLocators.CREATE_SERVER_BUTTON)
+        self.enter_cloud_server_create()
 
         self.wait_and_click(By.XPATH, f"//span[contains(@class, 'li6amjs') and text()='{country}']")
         self.scroll_to_element(By.XPATH, f"//h4[text()='{platform}']/ancestor::label")
