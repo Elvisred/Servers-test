@@ -31,6 +31,7 @@ class TestLogin(BaseTest):
             (1, f"no_password_{random_string(5)}@gmail.com", ""),  # валидный логин, пустой пароль
             (1, "", random_string(12)),  # пустой логин
             (1, f"short_password_{random_string(5)}@gmail.com", random_string(6)),  # короткий пароль
+            (1, f"short_password_{random_string(5)}gmail.com", random_string(12)),  # невалидный логин
         ],
     )
     def test_negative_login(self, browser, case_index, email, password):
