@@ -1,7 +1,7 @@
 import allure
 import pytest
 
-from pages.dashboard_page import DashboardPageLocators,DashboardPage
+from pages.dashboard_page import DashboardPageLocators, DashboardPage
 from pages.login_page import LoginPage, LoginPageLocators
 from tests.conftest import random_string
 from tests.base_test import BaseTest
