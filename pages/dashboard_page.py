@@ -9,20 +9,22 @@ class DashboardPageLocators(object):
     DASHBOARD_HEADER = (By.XPATH, "//nav[@class='nn4rjii']")
     # xpath кнопки открытия селектора профиля/логаута
     PROFILE_AND_LOGOUT_BUTTON = (By.XPATH, "//div[@class='c1asuurm']/button")
-    # xpath логаута
+    # xpath кнопки логаута
     LOGOUT_BUTTON = (By.XPATH, "//button/span[text()='Logout']")
     # xpath кнопки входа в профиль
     PROFILE_BUTTON = (By.XPATH, "//li/a/span[text()='Profile']")
-    # xpath кнопки cloud servers
-    CLOUD_SERVERS_BUTTON = (By.XPATH, "//span[text()='Cloud Servers']")
-    # xpath кнопки create/manage в cloud servers
-    CLOUD_CREATE_BUTTON = (By.XPATH, "//span[text()='Create & Manage']")
-    # xpath кнопки create/manage в cloud servers
-    CREATE_SERVER_BUTTON = (By.XPATH, "//span[text()='Create server']")
     # xpath кнопки Edit в профиле
     PROFILE_EDIT_BUTTON = (By.XPATH, "//span[text()='Edit']")
     # xpath кнопки Profile в правом меню
     PROFILE_MENU_BUTTON = (By.XPATH, "//span[contains(text(),'Profile')]")
+
+    # xpath кнопки cloud servers
+    CLOUD_SERVERS_BUTTON = (By.XPATH, "//span[text()='Cloud Servers']")
+    # xpath кнопки create/manage в cloud servers
+    CLOUD_CREATE_BUTTON = (By.XPATH, "//span[text()='Create & Manage']")
+    # xpath кнопки create server в cloud servers
+    CREATE_SERVER_BUTTON = (By.XPATH, "//span[text()='Create server']")
+
     # xpath кнопки Contacts
     ENTER_CONTACTS = (By.XPATH, "//span[normalize-space()='Contacts']")
     # xpath кнопки на /profile/contacts

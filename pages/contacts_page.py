@@ -35,12 +35,14 @@ class ContactsPageLocators(object):
     NICKNAME_INPUT = (By.XPATH, "//input[@name='nickname']")
     # xpath инпута Comments
     COMMENTS_INPUT = (By.XPATH, "//textarea[@name='tokens.note']")
+
     # xpath кнопки Add more details
     CONTACT_DETAILS_BUTTON = (By.XPATH, "//span[normalize-space()='Add more details']")
     # xpath чекбокса Contact details
     CONTACT_DETAIL_SELECTOR = (By.XPATH, "//*[@class='select__control css-1s2u09g-control']")
     # xpath инпута Contact details
     CONTACT_INPUT = (By.XPATH, "//input[@name='contacts[0].value']")
+
     # xpath Create
     CREATE_BUTTON = (By.XPATH, "//span[normalize-space()='Create']")
     # xpath Cancel
@@ -136,6 +138,13 @@ class ContactPage(BasePage):
 
         self.clear_and_set_value(*ContactsPageLocators.CONTACT_INPUT, contact_detail_input)
 
+    @allure.step("Сохранение или отмена создания контакта")
+    def save_or_cancel_contact_create(self, is_save=True):
+        if is_save is True:
+            self.wait_and_click(*ContactsPageLocators.CREATE_BUTTON)
+        else:
+            self.wait_and_click(*ContactsPageLocators.CANCEL_BUTTON)
+
     @allure.step("Создание контакта")
     def create_contact(
             self,
@@ -162,8 +171,4 @@ class ContactPage(BasePage):
         self.fill_work_data(company, job_title, job_role, nickname)
         self.fill_comment_data(comments)
         self.select_contact_detail(contact_detail, contact_detail_input)
-
-        if is_save:
-            self.wait_and_click(*ContactsPageLocators.CREATE_BUTTON)
-        else:
-            self.wait_and_click(*ContactsPageLocators.CANCEL_BUTTON)
+        self.save_or_cancel_contact_create(is_save)
