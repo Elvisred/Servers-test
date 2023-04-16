@@ -21,6 +21,14 @@ class DashboardPageLocators(object):
     CREATE_SERVER_BUTTON = (By.XPATH, "//span[text()='Create server']")
     # xpath кнопки Edit в профиле
     PROFILE_EDIT_BUTTON = (By.XPATH, "//span[text()='Edit']")
+    # xpath кнопки Profile в правом меню
+    PROFILE_MENU_BUTTON = (By.XPATH, "//span[contains(text(),'Profile')]")
+    # xpath кнопки Contacts
+    ENTER_CONTACTS = (By.XPATH, "//span[normalize-space()='Contacts']")
+    # xpath кнопки на /profile/contacts
+    CREATE_CONTACT = (By.XPATH, "//span[normalize-space()='Create']")
+    # xpath кнопки удаления контакта
+    DELETE_CONTACT = (By.XPATH, "//TODO")
 
 
 class DashboardPage(BasePage):

@@ -23,7 +23,7 @@ class ProfilePageLocators(object):
     # xpath маркетинговой рассылки
     MARKETING_EMAIL_CHECKBOX = (By.XPATH, "//input[@name='newsletters_subscription']")
 
-    # xpath инпутаfirst name
+    # xpath инпута first name
     FIRST_NAME_INPUT = (By.XPATH, "//input[@name='fname']")
     # xpath инпута last name
     LAST_NAME_INPUT = (By.XPATH, "//input[@name='lname']")

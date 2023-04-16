@@ -97,7 +97,7 @@ class CloudServersPage(BasePage):
             self.wait_and_click(*CloudServersPageLocators.BACKUP_DISABLE_CHECKBOX)
 
     @allure.step("Установка имени сервера")
-    def set_server_name(self, server_name):
+    def fill_server_name(self, server_name):
         self.scroll_to_element(*CloudServersPageLocators.SERVER_NAME_INPUT)
         self.clear_and_set_value(*CloudServersPageLocators.SERVER_NAME_INPUT, server_name)
 
@@ -125,5 +125,5 @@ class CloudServersPage(BasePage):
         self.select_configuration(configuration)
         self.generate_ssh_key()
         self.setup_backups(backup_enabled, backup_copies)
-        self.set_server_name(server_name)
+        self.fill_server_name(server_name)
         self.save_or_cancel(is_save)
