@@ -1,8 +1,7 @@
 import time
-
 import allure
-from selenium.webdriver.common.by import By
 
+from selenium.webdriver.common.by import By
 from pages.contacts_page import ContactPage, ContactsPageLocators
 from pages.login_page import LoginPage
 from tests.conftest import random_string, random_number
@@ -41,7 +40,7 @@ class TestContact(BaseTest):
         loginpage.login_user()
         contactpage.create_contact(phone_number=phone_number)
         loginpage.open(BaseTest.baseurl + "profile/contacts")  # Переходим на страницу списка контактов
-        time.sleep(2)
+        time.sleep(2)  # Вынужденный вейт
         # Act
         contactpage.delete_contact_by_phone_number(phone_number)
         # Assert

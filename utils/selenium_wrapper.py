@@ -89,3 +89,6 @@ class SeleniumWrapper:
 
         if value:
             self.browser.find_element(how, what).send_keys(value)
+
+    def wait_for_invisibility(self, how, what, timeout=TIME_OUT, step=STEP):
+        WebDriverWait(self.browser, timeout, step).until_not(EC.visibility_of_element_located((how, what)))

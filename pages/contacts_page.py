@@ -1,7 +1,6 @@
-from enum import Enum
-
 import allure
 
+from enum import Enum
 from pages.base_page import BasePage
 from selenium.webdriver.common.by import By
 from pages.dashboard_page import DashboardPageLocators
@@ -85,6 +84,7 @@ class ContactPage(BasePage):
                       f"'{phone_number}')]/following-sibling::td/button"
         )
         self.wait_and_click(*ContactsPageLocators.DELETE_CONTACT_ACCEPT)
+        self.wait_for_invisibility(By.XPATH, f"//td[contains(text(), '{phone_number}')]")
 
     @allure.step("Заполнение основных данных контакта")
     def fill_basic_data(self, first_name, middle_name, last_name, phone_number):
