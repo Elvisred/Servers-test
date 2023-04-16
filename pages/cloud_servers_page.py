@@ -30,19 +30,36 @@ class CloudServersPage(BasePage):
     def __init__(self, *args, **kwargs):
         super(CloudServersPage, self).__init__(*args, **kwargs)
 
-    """Также можно вбить остальные страны и платформы/конфигурации"""
     class Country(Enum):
         DALLAS = "Dallas"
         LUXEMBOURG = "Luxembourg"
         SINGAPORE = "Singapore"
+        AMSTERDAM_AZ2 = "Amsterdam - az2"
+        AMSTERDAM_AZ3 = "Amsterdam - az3"
+        AMSTERDAM_AZ4 = "Amsterdam - az4"
+        SAN_JOSE = "San Jose"
+        WASHINGTON = "Washington"
 
     class Platform(Enum):
         CENTOS_7_64 = "CentOS 7 (64 bit)"
         DEBIAN_11_64 = "Debian 11 (64 bit)"
+        ALMALINUX_8_64 = "AlmaLinux 8 (64 bit)"
+        DEBIAN_10_64 = "Debian 10 (64 bit)"
+        ROCKY_LINUX_8_64 = "Rocky Linux 8 (64 bit)"
+        UBUNTU_18_04_SERVER_64 = "Ubuntu 18.04-server (64 bit)"
+        UBUNTU_20_04_SERVER_64 = "Ubuntu 20.04-server (64 bit)"
+        UBUNTU_22_04_SERVER_64 = "Ubuntu 22.04-server (64 bit)"
 
     class Configuration(Enum):
         SSD_30 = "SSD.30"
         SSD_50 = "SSD.50"
+        SSD_80 = "SSD.80"
+        SSD_100 = "SSD.100"
+        SSD_120 = "SSD.120"
+        SSD_180 = "SSD.180"
+        SSD_320 = "SSD.320"
+        SSD_480 = "SSD.480"
+        SSD_640 = "SSD.640"
 
     @allure.step("Вход на страницу создания облачного сервера")
     def enter_cloud_server_create(self):
