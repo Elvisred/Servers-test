@@ -77,7 +77,7 @@ class ContactPage(BasePage):
         self.wait_and_click(*DashboardPageLocators.ENTER_CONTACTS)
         self.wait_and_click(*DashboardPageLocators.CREATE_CONTACT)
 
-    @allure.step("Удаление контакта по номеру телефона")
+    @allure.step("Удаление контакта по номеру телефона этого контакта")
     def delete_contact_by_phone_number(self, phone_number):
         self.wait_and_click(
             By.XPATH, f"//td[@class='tr1v0a t1qc42pv' and @data-label='Phone' and contains(text(), "
