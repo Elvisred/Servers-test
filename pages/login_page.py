@@ -1,7 +1,9 @@
 import allure
+import os
 
 from pages.base_page import BasePage
 from selenium.webdriver.common.by import By
+from dotenv import load_dotenv
 
 
 class LoginPageLocators(object):
@@ -22,14 +24,17 @@ class LoginPageLocators(object):
 
 
 class LoginPage(BasePage):
-    email = "akorolenko13+ask_ev@gmail.com"  # в реальной жизни я бы это спрятал в энвах в гитлабе или брал из бд
+
+    load_dotenv()
+    email = os.environ.get("EMAIL")
+    password = os.environ.get("PASSWORD")
 
     @allure.step("Принимаем куки")
     def accept_cookie(self):
         self.wait_and_click(*LoginPageLocators.COOKIES_ACCEPT_BUTTON)
 
     @allure.step("Логин в приложение: почта - {email}, пароль - {password} ")
-    def login_user(self, email=email, password="tKuGiGVW7@8RHb7"):
+    def login_user(self, email=email, password=password):
         self.accept_cookie()
         self.clear_and_set_value(*LoginPageLocators.EMAIL_LOGIN_INPUT, email)
         password_field = self.browser.find_element(*LoginPageLocators.PASSWORD_LOGIN_INPUT)

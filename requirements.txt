@@ -5,3 +5,4 @@ pytest-order>=1.0.1
 selenium>=4.3.0
 pytest-timeout>=2.1.0
 opencv-python>=4.6.0
+python-dotenv-1.0.0
