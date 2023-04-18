@@ -79,7 +79,7 @@ class ContactPage(BasePage):
         self.wait_and_click(*DashboardPageLocators.ENTER_CONTACTS)
         self.wait_and_click(*DashboardPageLocators.CREATE_CONTACT)
 
-    @allure.step("Удаление контакта по номеру телефона этого контакта")
+    @allure.step("Удаление контакта по номеру телефона этого контакта с {phone_number}")
     def delete_contact_by_phone_number(self, phone_number):
         self.wait_and_click(
             By.XPATH, f"//td[@class='tr1v0a t1qc42pv' and @data-label='Phone' and contains(text(), "
@@ -88,7 +88,8 @@ class ContactPage(BasePage):
         self.wait_and_click(*ContactsPageLocators.DELETE_CONTACT_ACCEPT)
         self.wait_for_invisibility(By.XPATH, f"//td[contains(text(), '{phone_number}')]")
 
-    @allure.step("Заполнение основных данных контакта")
+    @allure.step("Заполнение основных данных контакта: имя - {first_name},"
+                 " отчество - {middle_name}, фамилия - {last_name}, телефон - {phone_number}")
     def fill_basic_data(self, first_name, middle_name, last_name, phone_number):
         self.scroll_to_element(*ContactsPageLocators.FIRST_NAME_INPUT)
         self.clear_and_set_value(*ContactsPageLocators.FIRST_NAME_INPUT, first_name)
@@ -96,29 +97,31 @@ class ContactPage(BasePage):
         self.clear_and_set_value(*ContactsPageLocators.LAST_NAME_INPUT, last_name)
         self.clear_and_set_value(*ContactsPageLocators.PHONE_NUMBER_INPUT, phone_number)
 
-    @allure.step("Заполнение email данных контакта")
+    @allure.step("Заполнение email данных контакта: email - {email}, фамилия - {secondary_email}")
     def fill_email_data(self, email, secondary_email):
         self.clear_and_set_value(*ContactsPageLocators.EMAIL_INPUT, email)
         self.clear_and_set_value(*ContactsPageLocators.SECONDARY_EMAIL_INPUT, secondary_email)
 
-    @allure.step("Заполнение рабочих данных контакта")
+    @allure.step("Заполнение рабочих данных контакта: company={company}, "
+                 "job title - {job_title}, job role - {job_role}, nickname - {nickname}")
     def fill_work_data(self, company, job_title, job_role, nickname):
         self.clear_and_set_value(*ContactsPageLocators.COMPANY_INPUT, company)
         self.clear_and_set_value(*ContactsPageLocators.JOB_TITLE_INPUT, job_title)
         self.clear_and_set_value(*ContactsPageLocators.JOB_ROLE_INPUT, job_role)
         self.clear_and_set_value(*ContactsPageLocators.NICKNAME_INPUT, nickname)
 
-    @allure.step("Заполнение комментария для контакта")
+    @allure.step("Заполнение комментария для контакта: коммент - {comments}")
     def fill_comment_data(self, comments):
         self.clear_and_set_value(*ContactsPageLocators.COMMENTS_INPUT, comments)
 
-    @allure.step("Выбор типа контакта")
+    @allure.step("Выбор типа контакта: тип контакта - {job_role_type}")
     def select_job_role(self, job_role_type):
         self.scroll_to_element(*ContactsPageLocators.JOB_ROLE_SELECTOR)
         self.wait_and_click(By.XPATH, f"//label[contains(., '{job_role_type.value}')]/input[@type='checkbox']")
 
     '''Фантастически упрямые элементы селектора, я не смог их победить и жму в тесте "вручную".'''
-    @allure.step("Выбор дополнительных контактов")
+    @allure.step("Выбор дополнительных контактов: дополнительный контакт - {contact_detail}, "
+                 "инпут дополнительного контакта - {contact_detail_input}")
     def select_contact_detail(self, contact_detail: ContactDetail, contact_detail_input):
         self.wait_and_click(*ContactsPageLocators.CONTACT_DETAILS_BUTTON)
         self.wait_and_click(*ContactsPageLocators.CONTACT_DETAIL_SELECTOR)
@@ -138,14 +141,20 @@ class ContactPage(BasePage):
 
         self.clear_and_set_value(*ContactsPageLocators.CONTACT_INPUT, contact_detail_input)
 
-    @allure.step("Сохранение или отмена создания контакта")
+    @allure.step("Сохранение или отмена создания контакта: факт сохранения - {is_save}")
     def save_or_cancel_contact_create(self, is_save=True):
         if is_save is True:
             self.wait_and_click(*ContactsPageLocators.CREATE_BUTTON)
         else:
             self.wait_and_click(*ContactsPageLocators.CANCEL_BUTTON)
 
-    @allure.step("Создание контакта")
+    @allure.step("Создание контакта с данными: имя - {first_name}, отчество - {middle_name}, "
+                 "фамилия - {last_name}, телефон - {phone_number}, "
+                 "email - {email}, второй email - {secondary_email}, "
+                 "компания - {company}, должность - {job_title}, "
+                 "роль - {job_role}, никнэйм - {nickname}, коммент - {comments}, "
+                 "типа должности - {job_role_type}, дополнительный контакт - {contact_detail}, "
+                 "инпут дополнительного контакта - {contact_detail_input}, факт сохранения - {is_save}")
     def create_contact(
             self,
             first_name=random_string(12),

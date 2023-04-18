@@ -67,16 +67,16 @@ class CloudServersPage(BasePage):
         self.wait_and_click(*DashboardPageLocators.CLOUD_CREATE_BUTTON)
         self.wait_and_click(*DashboardPageLocators.CREATE_SERVER_BUTTON)
 
-    @allure.step("Выбор страны сервера")
+    @allure.step("Выбор страны сервера - {country}")
     def select_server_country(self, country):
         self.wait_and_click(By.XPATH, f"//span[contains(@class, 'li6amjs') and text()='{country.value}']")
 
-    @allure.step("Выбор платформы")
+    @allure.step("Выбор платформы - {platform}")
     def select_platform(self, platform):
         self.scroll_to_element(By.XPATH, f"//h4[text()='{platform.value}']/ancestor::label")
         self.wait_and_click(By.XPATH, f"//h4[text()='{platform.value}']/ancestor::label")
 
-    @allure.step("Выбор конфигурации")
+    @allure.step("Выбор конфигурации - {configuration}")
     def select_configuration(self, configuration):
         self.scroll_to_element(By.XPATH, f"//h4[text()='{configuration.value}']/ancestor::label//input[@type='radio']")
         self.wait_and_click(By.XPATH, f"//h4[text()='{configuration.value}']/ancestor::label//input[@type='radio']")
@@ -86,7 +86,7 @@ class CloudServersPage(BasePage):
         self.scroll_to_element(*CloudServersPageLocators.GENERATE_SSH_BUTTON)
         self.wait_and_click(*CloudServersPageLocators.GENERATE_SSH_BUTTON)
 
-    @allure.step("Настройка автоматических резервных копий")
+    @allure.step("Настройка резервных копий: бэкап - {backup_enabled}, копии - {backup_copies}")
     def setup_backups(self, backup_enabled, backup_copies=None):
         if backup_enabled:
             self.scroll_to_element(*CloudServersPageLocators.BACKUP_ENABLE_CHECKBOX)
@@ -96,19 +96,22 @@ class CloudServersPage(BasePage):
         else:
             self.wait_and_click(*CloudServersPageLocators.BACKUP_DISABLE_CHECKBOX)
 
-    @allure.step("Установка имени сервера")
+    @allure.step("Установка имени сервера - {server_name}")
     def fill_server_name(self, server_name):
         self.scroll_to_element(*CloudServersPageLocators.SERVER_NAME_INPUT)
         self.clear_and_set_value(*CloudServersPageLocators.SERVER_NAME_INPUT, server_name)
 
-    @allure.step("Сохранение или отмена создания сервера")
+    @allure.step("Сохранение или отмена создания сервера: факт сохранения - {is_save}")
     def save_or_cancel(self, is_save=True):
         if is_save:
             self.wait_and_click(*CloudServersPageLocators.CREATE_SERVER_BUTTON)
         else:
             self.wait_and_click(*CloudServersPageLocators.CANCEL_BUTTON)
 
-    @allure.step("Создание сервера")
+    @allure.step(
+        "Создание сервера с параметрами: страна серера - {country}, платформа - {platform}, "
+        "конфигурация - {configuration}, бэкап - {backup_enabled}, backup_copies - {backup_copies}, "
+        "имя сервера - {server_name}, факт сохранения - {is_save}")
     def create_server(
             self,
             country=Country.DALLAS,

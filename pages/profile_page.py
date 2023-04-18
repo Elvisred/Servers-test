@@ -72,7 +72,7 @@ class ProfilePage(BasePage):
         self.wait_and_click(*DashboardPageLocators.PROFILE_BUTTON)
         self.wait_and_click(*DashboardPageLocators.PROFILE_EDIT_BUTTON)
 
-    @allure.step("Выбор типа аккаунта business или personal с {business_type}")
+    @allure.step("Выбор типа аккаунта business или personal: {business_type}")
     def select_business_type(self, business_type):
         if business_type == self.BusinessType.PERSONAL:
             self.wait_and_click(*ProfilePageLocators.PERSONAL_CHECKBOX)
@@ -83,12 +83,12 @@ class ProfilePage(BasePage):
     def select_currency(self, currency):
         self.wait_and_click(By.XPATH, f"//input[@name='currency' and @value='{currency.value}']")
 
-    @allure.step("Установка маркетинговой рассылки")
+    @allure.step("Установка маркетинговой рассылки: {marketing_email}")
     def set_marketing_email(self, marketing_email):
         if marketing_email is True:
             self.wait_and_click(*ProfilePageLocators.MARKETING_EMAIL_CHECKBOX)
 
-    @allure.step("Заполнение данных пользователя")
+    @allure.step("Заполнение данных пользователя: {first_name}, {last_name}, {phone_number}, {email}")
     def fill_user_data(self, first_name, last_name, phone_number, email):
         self.scroll_to_element(*ProfilePageLocators.FIRST_NAME_INPUT)
         self.clear_and_set_value(*ProfilePageLocators.FIRST_NAME_INPUT, first_name)
@@ -96,7 +96,7 @@ class ProfilePage(BasePage):
         self.clear_and_set_value(*ProfilePageLocators.PHONE_NUMBER_INPUT, phone_number)
         self.clear_and_set_value(*ProfilePageLocators.EMAIL_INPUT, email)
 
-    @allure.step("Заполнение адресных данных")
+    @allure.step("Заполнение адресных данных: {country}, {city}, {region}, {postal_code}, {street}")
     def fill_address_data(self, country, city, region, postal_code, street):
         self.wait_and_click(*ProfilePageLocators.COUNTRY_SELECTOR)
         self.wait_and_click(By.XPATH, f"//div[contains(text(),{country})]")
@@ -105,14 +105,17 @@ class ProfilePage(BasePage):
         self.clear_and_set_value(*ProfilePageLocators.POSTAL_CODE_INPUT, postal_code)
         self.clear_and_set_value(*ProfilePageLocators.STREET_INPUT, street)
 
-    @allure.step("Сохранение или отмена редактирования аккаунта")
+    @allure.step("Сохранение или отмена редактирования аккаунта: {is_save}")
     def save_or_cancel_edit(self, is_save=True):
         if is_save is True:
             self.wait_and_click(*ProfilePageLocators.SAVE_BUTTON)
         else:
             self.wait_and_click(*ProfilePageLocators.CANCEL_BUTTON)
 
-    @allure.step("Редактирование аккаунта")
+    @allure.step("Редактирование аккаунта: имя - {first_name}, фамилия - {last_name}, телефон - {phone_number}, "
+                 "email{email}, страна - {country}, город - {city}, "
+                 "регион - {region}, почтовый индекс - {postal_code}, улица - {street}, валюта - {currency}, "
+                 "тип аккаунта - {business_type}, маркетинговая рассылка{marketing_email}, факт сохранения {is_save}")
     def edit_account(
             self,
             first_name="Aleksei",
