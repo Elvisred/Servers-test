@@ -9,17 +9,18 @@ from tests.base_test import BaseTest
 
 @allure.epic("Login tests")
 class TestLogin(BaseTest):
+    @pytest.fixture(autouse=True)
+    def setup(self, browser):
+        self.loginpage = LoginPage(browser, BaseTest.baseurl)  # Инициализируем loginpage
+        self.loginpage.open(BaseTest.baseurl + "?login")  # Переходим на страницу логина
+
     @allure.story("Login")
     @allure.title("Проверка успешного логина")
     def test_correct_login(self, browser):
-        # Arrange
-        loginpage = LoginPage(browser, BaseTest.baseurl)  # Инициализируем loginpage
-        loginpage.open(BaseTest.baseurl + "?login")  # Переходим на страницу логина
-        # Act
-        loginpage.login_user()
-        # Assert
+        self.loginpage.login_user()
+
         with allure.step("Проверяем что перешли на /dachboard проверяя хедер этой страницы"):
-            assert loginpage.is_element_present(*DashboardPageLocators.DASHBOARD_HEADER)
+            assert self.loginpage.is_element_present(*DashboardPageLocators.DASHBOARD_HEADER)
 
     @allure.story("Negative Login")
     @allure.title("Негативные тесты логина логина")
@@ -35,28 +36,21 @@ class TestLogin(BaseTest):
         ],
     )
     def test_negative_login(self, browser, case_index, email, password):
-        # Arrange
-        loginpage = LoginPage(browser, BaseTest.baseurl)  # Инициализируем loginpage
-        loginpage.open(BaseTest.baseurl + "?login")  # Переходим на страницу логина
-        # Act
-        loginpage.login_user(email, password)
-        # Assert
+        self.loginpage.login_user(email=email, password=password)
+
         with allure.step("Проверяем сообщение об ошибке"):
             if case_index == 0:
-                assert loginpage.is_element_present(*LoginPageLocators.INCORRECT_LOGIN_ALERT)
+                assert self.loginpage.is_element_present(*LoginPageLocators.INCORRECT_LOGIN_ALERT)
             elif case_index == 1:
-                assert loginpage.is_element_present(*LoginPageLocators.INVALID_LOGIN_ALERT)
+                assert self.loginpage.is_element_present(*LoginPageLocators.INVALID_LOGIN_ALERT)
 
     @allure.story("Logout")
     @allure.title("Тест разлогина")
     def test_logout(self, browser):
-        # Arrange
-        loginpage = LoginPage(browser, BaseTest.baseurl)  # Инициализируем loginpage
         dashboardpage = DashboardPage(browser, BaseTest.baseurl)  # Инициализируем dashboardpage
-        loginpage.open(BaseTest.baseurl + "?login")  # Переходим на страницу логина
-        # Act
-        loginpage.login_user()
+
+        self.loginpage.login_user()
         dashboardpage.logout_user()
         # Assert
         with allure.step("Проверяем наличие поля логина и пароля при переходе на /login"):
-            assert loginpage.is_element_present(*LoginPageLocators.LOGIN_FIELD)
+            assert self.loginpage.is_element_present(*LoginPageLocators.LOGIN_FIELD)
